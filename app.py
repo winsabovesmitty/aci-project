@@ -70,11 +70,7 @@ A take on the edge at 2-0 may be scored positively, while that same take at 2-2 
 """)
 
 st.caption(
-    "Developed by Brandon Smith"
-)
-
-st.caption(
-    "[Baseball Analytics Portfolio] https://medium.com/@WinsAboveSmitty"
+    "Developed by Brandon Smith | https://medium.com/@WinsAboveSmitty"
 )
 
 # -------------------
