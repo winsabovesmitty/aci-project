@@ -59,10 +59,8 @@ ACI measures hitter approach quality by evaluating swing/take decisions through 
 
 **Formula:**  
 ACI = Good Decisions / Total Pitches Seen
-
-Each pitch is scored binary (1 = good decision, 0 = poor decision) based on count context.
-
-Only hitters in the top 25% of MLB pitch volume are included.
+- Each pitch is scored binary (1 = good decision, 0 = poor decision) based on count context.
+- Only hitters in the top 25% of MLB pitch volume are included.
 
 **Examples of "Good Decisions" include:**
 - Swinging at damage pitches in advantage counts (e.g. 2-0, 2-1, 3-1)
