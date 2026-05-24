@@ -62,6 +62,20 @@ Built using MLB Statcast data.
 """)
 
 # -------------------
+# TEAM FILTER
+# -------------------
+
+teams = ["All Teams"] + sorted(df["Team"].dropna().unique())
+
+selected_team = st.selectbox(
+    "Filter by Team",
+    teams
+)
+
+if selected_team != "All Teams":
+    df = df[df["Team"] == selected_team]
+
+# -------------------
 # SEARCH
 # -------------------
 
