@@ -50,15 +50,14 @@ df = df.rename(columns={
 st.title("Approach per Count Index (ACI)")
 
 st.markdown("""
-ACI measures how often MLB hitters make a favorable swing/take decision based on:
+ACI measures hitter approach quality by evaluating swing/take decisions through count leverage, pitch location, personalized hot/cold zones, and intelligent 2-strike protection using MLB Statcast data.
 
-- Count context
-- Pitch location
-- Personalized hot/cold zones
-- Damage-hunting philosophy
-- Intelligent 2-strike protection
+ACI is process-focused rather than outcome-focused.
 
-Built using MLB Statcast data.
+**Formula:**  
+ACI = Good Decisions / Total Pitches Seen
+
+A “Good Decision” is defined contextually by count, pitch location, hitter-specific hot/cold zones, and approach philosophy.
 """)
 
 # -------------------
