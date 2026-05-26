@@ -49,9 +49,9 @@ df = df[
         "player_name",
         "batting_team",
         "ACI",
+        "ACI_20",
         "ACI_40",
         "ACI_80",
-        "ACI_120",
         "Pitches"
     ]
 ]
