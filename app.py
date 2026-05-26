@@ -195,30 +195,42 @@ def color_trend(val, season):
 # STYLE TABLE
 # -------------------
 
-styled_df = df.style.apply(
-    lambda row: [
-        "",  # Rank
-        "",  # Percentile
-        "",  # Player
-        "",  # Team
-        "",  # Season ACI
-        color_trend(
-            row["Last 20 PA ACI"],
-            row["Season ACI"]
-        ),
-        color_trend(
-            row["Last 40 PA ACI"],
-            row["Season ACI"]
-        ),
-        color_trend(
-            row["Last 80 PA ACI"],
-            row["Season ACI"]
-        ),
-        ""   # Pitches Seen
-    ],
-    axis=1
-)
+# -------------------
+# STYLE TABLE
+# -------------------
 
+styled_df = (
+    df.style
+      .format({
+          "Season ACI": "{:.3f}",
+          "Last 20 PA ACI": "{:.3f}",
+          "Last 40 PA ACI": "{:.3f}",
+          "Last 80 PA ACI": "{:.3f}"
+      })
+      .apply(
+          lambda row: [
+              "",  # Rank
+              "",  # Percentile
+              "",  # Player
+              "",  # Team
+              "",  # Season ACI
+              color_trend(
+                  row["Last 20 PA ACI"],
+                  row["Season ACI"]
+              ),
+              color_trend(
+                  row["Last 40 PA ACI"],
+                  row["Season ACI"]
+              ),
+              color_trend(
+                  row["Last 80 PA ACI"],
+                  row["Season ACI"]
+              ),
+              ""   # Pitches Seen
+          ],
+          axis=1
+      )
+)
 # -------------------
 # DISPLAY TABLE
 # -------------------
