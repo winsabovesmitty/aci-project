@@ -224,6 +224,17 @@ styled_df = (
           "40 PA": "{:.3f}",
           "80 PA": "{:.3f}"
       })
+      .set_properties(**{
+          "text-align": "center"
+      })
+      .set_table_styles([
+          {
+              "selector": "th",
+              "props": [
+                  ("text-align", "center")
+              ]
+          }
+      ])
       .apply(
           lambda row: [
               "",  # Rank
