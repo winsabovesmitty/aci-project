@@ -159,15 +159,24 @@ def color_trend(val, season):
 
     # strong improvement
     if delta >= 0.015:
-        return "background-color: #d4edda"
+        return (
+            "background-color: #d4edda; "
+            "color: black;"
+        )
 
     # strong decline
     elif delta <= -0.015:
-        return "background-color: #f8d7da"
+        return (
+            "background-color: #f8d7da; "
+            "color: black;"
+        )
 
     # relatively stable
     else:
-        return "background-color: #fff3cd"
+        return (
+            "background-color: #fff3cd; "
+            "color: black;"
+        )
 
 # -------------------
 # STYLED TABLE
