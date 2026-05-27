@@ -135,6 +135,10 @@ st.divider()
 st.subheader("2026 MLB Leaderboard")
 
 st.caption(
+    "Last Updated: 5/26/2026"
+)
+
+st.caption(
     "Leaderboard default sorted by Season ACI."
 )
 
