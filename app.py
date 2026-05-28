@@ -82,9 +82,9 @@ df = df.rename(columns={
     "player_name": "Player",
     "batting_team": "Team",
     "ACI": "Season ACI",
-    "ACI_20": "Last 20 PA",
-    "ACI_40": "Last 40 PA",
-    "ACI_80": "Last 80 PA",
+    "ACI_20": "20 PA",
+    "ACI_40": "40 PA",
+    "ACI_80": "80 PA",
     "Pitches": "Pitches Seen",
     "Percentile": "ACI Percentile"
 })
@@ -101,176 +101,25 @@ st.caption(
 
 st.markdown("""
 **What is ACI:**  
-ACI measures hitter approach quality by evaluating swing/take decisions through count leverage, pitch location, personalized hot/cold zones, and intelligent 2-strike protection using MLB Statcast data.
+ACI measures hitter approach quality by evaluating contextual swing/take decisions using MLB Statcast pitch-level data.
 
-ACI is process-focused rather than outcome-focused, measuring hitter approach quality independent of results.
+Unlike traditional offensive metrics, ACI is process-focused rather than outcome-focused, attempting to measure how consistently a hitter executes favorable offensive decisions based on count leverage and pitch context.
 
-**Formula:**  
+---
+
+### Binary Pitch Scoring
+
+Each pitch receives:
+- `1` = favorable decision
+- `0` = unfavorable decision
+
+based on:
+- count state
+- pitch location
+- swing/take behavior
+- hitter-specific hot/cold zones
+- damage opportunity
+- 2-strike protection expectations
+
+```text
 ACI = Good Decisions / Total Pitches Seen
-- Each pitch is scored binary (1 = good decision, 0 = poor decision) based on count context.
-- Only hitters in the top 25% of MLB pitch volume are included.
-
-**Examples of "Good Decisions" include:**
-- Swinging at damage pitches in advantage counts (e.g. 2-0, 2-1, 3-1)
-- Taking edge/shadow pitches when ahead
-- Attacking hitter-specific hot zones
-- Punishing elevated hanging breaking balls
-- Protecting competitive pitches with 2 strikes
-- Taking obvious chase pitches with 2 strikes
-
-**Example:**  
-A take on the edge at 2-0 may be scored positively, while that same take at 2-2 may be scored negatively due to count leverage and protection expectations.
-""")
-
-# -------------------
-# SECTION BREAK
-# -------------------
-
-st.divider()
-
-# -------------------
-# LEADERBOARD HEADER
-# -------------------
-
-st.subheader("2026 MLB Leaderboard")
-
-st.caption(
-    "Last Updated: 5/26/2026"
-)
-
-st.caption(
-    "Leaderboard default sorted by Season ACI."
-)
-
-st.caption(
-    "Trend colors compare recent ACI windows against Season ACI (+/- .015): "
-    "Green = improving approach | "
-    "Yellow = stable approach | "
-    "Red = declining approach"
-)
-
-# -------------------
-# FILTERS
-# -------------------
-
-col1, col2 = st.columns([1, 2])
-
-teams = ["All Teams"] + sorted(df["Team"].dropna().unique())
-
-with col1:
-    selected_team = st.selectbox(
-        "Filter by Team",
-        teams
-    )
-
-with col2:
-    player_search = st.text_input(
-        "Search Player"
-    )
-
-# -------------------
-# APPLY FILTERS
-# -------------------
-
-if selected_team != "All Teams":
-    df = df[df["Team"] == selected_team]
-
-if player_search:
-    df = df[
-        df["Player"].str.contains(
-            player_search,
-            case=False,
-            na=False
-        )
-    ]
-
-# -------------------
-# TREND COLORING
-# -------------------
-
-def color_trend(val, season):
-
-    if pd.isna(val):
-        return ""
-
-    delta = val - season
-
-    # improving
-    if delta >= 0.015:
-        return (
-            "background-color: #d4edda; "
-            "color: black;"
-        )
-
-    # declining
-    elif delta <= -0.015:
-        return (
-            "background-color: #f8d7da; "
-            "color: black;"
-        )
-
-    # stable
-    else:
-        return (
-            "background-color: #fff3cd; "
-            "color: black;"
-        )
-
-# -------------------
-# STYLE TABLE
-# -------------------
-
-styled_df = (
-    df.style
-      .format({
-          "Season ACI": "{:.3f}",
-          "Last 20 PA": "{:.3f}",
-          "Last 40 PA": "{:.3f}",
-          "Last 80 PA": "{:.3f}"
-      })
-      .set_properties(**{
-          "text-align": "center"
-      })
-      .set_table_styles([
-          {
-              "selector": "th",
-              "props": [
-                  ("text-align", "center")
-              ]
-          }
-      ])
-      .apply(
-          lambda row: [
-              "",  # Rank
-              "",  # Player
-              "",  # Team
-              "",  # Season ACI
-              color_trend(
-                  row["Last 20 PA"],
-                  row["Season ACI"]
-              ),
-              color_trend(
-                  row["Last 40 PA"],
-                  row["Season ACI"]
-              ),
-              color_trend(
-                  row["Last 80 PA"],
-                  row["Season ACI"]
-              ),
-              "",  # Percentile
-              ""   # Pitches Seen
-          ],
-          axis=1
-      )
-)
-
-# -------------------
-# DISPLAY TABLE
-# -------------------
-
-st.data_editor(
-    styled_df,
-    hide_index=True,
-    use_container_width=True,
-    disabled=True
-)
