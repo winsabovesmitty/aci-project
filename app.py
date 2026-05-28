@@ -109,9 +109,9 @@ st.markdown("""
 
 Approach per Count Index (ACI) is a contextual hitting approach model built using MLB Statcast pitch-level data.
 
-Rather than measuring offensive outcomes, ACI attempts to measure:
+Rather than measuring offensive production, ACI attempts to measure:
 
-> how consistently a hitter executes favorable offensive decisions based on count leverage and pitch context.
+> how consistently a hitter executes favorable swing/take decisions based on count leverage and pitch context.
 
 ACI is intentionally process-focused rather than results-focused.
 
@@ -138,21 +138,44 @@ Only hitters in the top 25% of MLB pitch volume are included.
 
 ---
 
+### Count-Based Decision Framework
+
+#### Hunting Counts
+(0-0, 1-0, 2-0, 2-1, 3-1)
+
+Expected behavior:
+- attack damage pitches
+- swing at hitter-specific hot zones
+- punish elevated hanging breaking balls
+- avoid passive misses on hittable pitches
+- avoid expanding at chase pitches
+
+#### Pivot Counts
+(0-1, 1-1)
+
+Expected behavior:
+- maintain selective aggression
+- attack mistake pitches
+- avoid unnecessary chase expansion
+
+#### Survival Counts
+(All 2-strike counts)
+
+Expected behavior:
+- protect competitive pitches
+- defend edge/shadow locations
+- avoid obvious chase swings outside protection range
+
+---
+
 ### Example Positive Decisions
 
-#### Advantage Counts (2-0, 2-1, 3-1)
-
 Examples include:
-- swinging at middle-middle fastballs
-- attacking hitter-specific hot zones
-- punishing elevated hanging breaking balls
-- taking edge/shadow pitches rather than expanding
-
-#### 2-Strike Counts
-
-Examples include:
-- protecting competitive pitches
-- taking obvious chase pitches
+- swinging at middle-middle fastballs in leverage counts
+- attacking personalized hot zones
+- taking edge pitches at 2-0 rather than expanding
+- protecting competitive pitches with 2 strikes
+- taking obvious chase pitches with 2 strikes
 
 ---
 
@@ -221,8 +244,7 @@ st.caption(
 )
 
 st.caption(
-    "Trend colors compare rolling windows against "
-    "Season ACI."
+    "Trend colors compare rolling windows against Season ACI."
 )
 
 # ==================================================
