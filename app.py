@@ -209,9 +209,10 @@ st.caption(
 league_aci = df["Season ACI"].mean()
 league_hunt = df["Hitter's Count ACI"].mean()
 league_2k = df["2-Strike ACI"].mean()
+league_risp = df["RISP ACI"].mean()
 qualified_hitters = len(df)
 
-kpi1, kpi2, kpi3, kpi4 = st.columns(4)
+kpi1, kpi2, kpi3, kpi4, kpi5 = st.columns(5)
 
 with kpi1:
     st.metric(
@@ -233,6 +234,12 @@ with kpi3:
 
 with kpi4:
     st.metric(
+        "MLB Avg RISP ACI",
+        f"{league_risp:.3f}"
+    )
+
+with kpi5:
+    st.metric(
         "Qualified Hitters",
         qualified_hitters
     )
@@ -243,6 +250,11 @@ st.caption(
 
 st.caption(
     "Situational ACIs evaluate approach quality in hitter's counts, 2-strike counts, and runners-in-scoring-position situations."
+)
+
+st.caption(
+    "Trend colors compare Last 20 / 40 / 80 PA ACI against Season ACI "
+    "(Green = improving, Yellow = stable, Red = declining)."
 )
 
 # ==================================================
